@@ -41,8 +41,9 @@ h1 {
     color: white;
 }
 
-canvas{
+canvas {
     display: none;
+    margin: auto;
 }
 
 .end-screen{
