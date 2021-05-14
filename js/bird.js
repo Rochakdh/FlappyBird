@@ -1,7 +1,6 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 canvas.height = 515
-// canvas.width = window.innerWidth;
 c.font = "30px Arial";
 let startScreen = document.querySelector('.start-screen')
 let endScreen = document.querySelector('.end-screen')
@@ -20,6 +19,14 @@ let linerSpeed = 2;
 let jumpHeight = 20;
 let pipePosition = 200
 
+let pipeX;
+let pipeY;
+let pipeUpX;
+let pipeUpY;
+let pipeWidth;
+let birdWidth;
+let pipes;
+
 class Pipes {
     constructor(x,height){
         this.x = x;
@@ -34,8 +41,9 @@ class Pipes {
         this.x = this.x - 0.5
         let pipeImage = new Image()
         pipeImage.src = 'images/pipe.png';
-        let pipeX = backgroundX + this.x
-        let pipeY = canvas.height-baseHeight-pipeImage.height/2 - this.height
+        pipeX = backgroundX + this.x
+        pipeY = canvas.height-baseHeight-pipeImage.height/2 - this.height
+        pipeWidth = pipeImage.width
         c.drawImage(pipeImage,pipeX,pipeY,pipeImage.width,pipeImage.height/2+this.height)
         if (this.x < backgroundX-pipeImage.width-20){
             this.x = this.preserveX + 400;
@@ -44,12 +52,9 @@ class Pipes {
     drawPipeTop = function(){
         let pipeImageUp = new Image()
         pipeImageUp.src = 'images/pipeup.png';
-        let  pipeUpX = backgroundX + this.x
-        let pipeUpY = 0
+        pipeUpX = backgroundX + this.x
+        pipeUpY = 0
         c.drawImage(pipeImageUp,pipeUpX,pipeUpY,pipeImageUp.width,pipeImageUp.height/2-this.height)
-        // if (this.x < backgroundX-pipeImageUp.width){
-        //     this.x = this.preserveX;
-        // }
     }
 };
 
@@ -84,6 +89,7 @@ let birdY;
 bird = function(){
     let bird = new Image()
     bird.src = 'images/bird.png';
+    birdWidth = bird.width
     let birdX = backgroundX - 50 + backgroundWidth / 2; 
     birdY = backgroundY - 100 + backgrounHeight / 2 + jumpHeight; 
     c.drawImage(bird,birdX,birdY)
@@ -97,7 +103,7 @@ bird = function(){
         c.clearRect(0, 0, canvas.width, canvas.height);       
     }
 }
-let pipes;
+
 
 function init(){
     pipes = new Pipes(200,10)
@@ -135,4 +141,3 @@ document.addEventListener('keydown', (e) => {
         jumpHeight -= 15 * linerSpeed
     }
 });
-
