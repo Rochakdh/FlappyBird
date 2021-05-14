@@ -14,32 +14,42 @@ let backgrounHeight;
 let backgroundWidth = 335;
 let baseY;
 let slideBird = 0.3;
-let speed = 0.2;
+let speed = 0.4;
 let baseHeight;
 let linerSpeed = 2;
 let jumpHeight = 20;
+let pipePosition = 200
 
 class Pipes {
-    constructor(x){
+    constructor(x,height){
         this.x = x;
         this.y = 0;
         this.height = 0;
+        this.preserveX = x;
+        this.dragX = 0
+        this.height = height
     };
     
-
-    drawPipeBase = function(){
+    drawPipeBase = () => {
+        this.x = this.x - 0.5
         let pipeImage = new Image()
         pipeImage.src = 'images/pipe.png';
         let pipeX = backgroundX + this.x
-        let pipeY = canvas.height-baseHeight-pipeImage.height/2
-        c.drawImage(pipeImage,pipeX,pipeY,pipeImage.width,pipeImage.height/2)
+        let pipeY = canvas.height-baseHeight-pipeImage.height/2 - this.height
+        c.drawImage(pipeImage,pipeX,pipeY,pipeImage.width,pipeImage.height/2+this.height)
+        if (this.x < backgroundX-pipeImage.width-20){
+            this.x = this.preserveX + 400;
+        }
     }
     drawPipeTop = function(){
         let pipeImageUp = new Image()
         pipeImageUp.src = 'images/pipeup.png';
         let  pipeUpX = backgroundX + this.x
         let pipeUpY = 0
-        c.drawImage(pipeImageUp,pipeUpX,pipeUpY,pipeImageUp.width,pipeImageUp.height/2)
+        c.drawImage(pipeImageUp,pipeUpX,pipeUpY,pipeImageUp.width,pipeImageUp.height/2-this.height)
+        // if (this.x < backgroundX-pipeImageUp.width){
+        //     this.x = this.preserveX;
+        // }
     }
 };
 
@@ -80,25 +90,28 @@ bird = function(){
     jumpHeight += linerSpeed
     baseTop = Math.abs(canvas.height) - baseHeight - 20
     if (birdY > baseTop){
-        // startScreen.style.display = 'none'
-        // canvas.style.display = 'none'
-        // endScreen.style.display = 'block'
-        // cancelAnimationFrame(animate)
-        // c.clearRect(0, 0, canvas.width, canvas.height);       
+        startScreen.style.display = 'none'
+        canvas.style.display = 'none'
+        endScreen.style.display = 'block'
+        cancelAnimationFrame(animate)
+        c.clearRect(0, 0, canvas.width, canvas.height);       
     }
 }
 let pipes;
+
 function init(){
-    pipes = new Pipes(200)
-    // pipes = new Pipes(200)
-    
+    pipes = new Pipes(200,10)
+    pipes2 = new Pipes(400,50)
 }
+
 function animate (){
     background();
     base();
     bird();
     pipes.drawPipeBase()
     pipes.drawPipeTop()
+    pipes2.drawPipeBase()
+    pipes2.drawPipeTop()
     requestAnimationFrame(animate)
 }
 
