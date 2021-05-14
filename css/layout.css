@@ -26,6 +26,9 @@
     margin-top: 40px;
     background:rgb(96 ,115, 122, 0.3)
 }
+.home-btn{
+    margin-left:155px;
+}
 .instruction,.scores{
     width: 60%;
     margin: 30px auto;
